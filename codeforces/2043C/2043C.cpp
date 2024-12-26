@@ -29,8 +29,11 @@ void solve()
       cout << 2 << "\n";
       cout << a[0] << " ";
       cout << 0 << "\n";
-    } else {
-      cout << 1 << "\n" << 0 << "\n";
+    }
+    else
+    {
+      cout << 1 << "\n"
+           << 0 << "\n";
     }
     return;
   }
@@ -48,21 +51,31 @@ void solve()
 
   if (k == -1)
   {
-    long long int one = 0;
-    long long int minus = 0;
+    long long int minum = INT_MAX;
+    long long int maxim = INT_MIN;
+    long long int cur = 0;
+    long long int curmin = 0;
+    vector<long long int> ans;
     for (long long int i = 0; i < n; i++)
     {
-      if (a[i] == 1)
-        one++;
-      else
-        minus++;
+      cur = max(a[i], a[i] + cur);
+      curmin = min(a[i], a[i] + curmin);
+      minum = min(curmin, minum);
+      maxim = max(cur, maxim);
     }
 
-    long long int start = -minus;
-    long long int end = one;
-    cout << minus + one + 1 << "\n";
-    for (long long int i = start; i <= end; i++)
-      cout << i << " ";
+    if (minum > 0)
+      ans.push_back(0);
+    for (long long int i = minum; i <= maxim; i++)
+    {
+      ans.push_back(i);
+    }
+    if (maxim < 0)
+      ans.push_back(0);
+
+    cout << ans.size() << "\n";
+    for (auto c : ans)
+      cout << c << " ";
     cout << "\n";
     return;
   }
