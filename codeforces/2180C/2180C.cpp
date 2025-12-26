@@ -4,52 +4,45 @@ using namespace std;
 
 #define ll long long
 
-void check(ll n) {
-  while (n) {
-    cout << (n % 2) << "";
-    n >>= 1;
-  }
-  cout << "\n";
-}
-
 void solve() {
   ll n, k;
   cin >> n >> k;
-
   if (k & 1) {
     for (int i = 0; i < k; i++) {
       cout << n << " ";
     }
     cout << "\n";
-    return;
   } else {
-    ll as = 0;
-    for (ll i = 0; i < k - 2; i++) {
-      as ^= n;
-      cout << n << " ";
-    }
-    ll bits = 31 - __builtin_clz(n);
-    ll xors = 0;
-    ll cnt = 0;
-    for (ll i = bits - 1; i >= 0; i--) {
-      if ((1LL << i) & n) {
-        cnt++;
+
+    vector<ll> a(k, 0);
+    vector<ll> b;
+    ll l = k - 1;
+    ll bit = 31 - __builtin_clz(n);
+    for (int i = bit; i >= 0; i--) {
+      if (n & (1 << i)) {
+        if (l >= 0) {
+          b.push_back(a[l]);
+          l--;
+        }
+        for (int j = 0; j < (int)b.size() - 1; j++) {
+          b[j] |= (1 << i);
+        }
+        for (int j = 0; j <= l; j++) {
+          a[j] |= (1 << i);
+        }
+      } else {
+        for (int j = 0; j < b.size() / 2 * 2; j++) {
+          b[j] |= (1 << i);
+        }
       }
-      if (cnt >= 1)
-        xors |= (1LL << i);
     }
-    ll temp = n;
-    n ^= xors;
-    as ^= n;
-    as ^= xors;
-    cout << xors << " ";
-    cout << n << "\n";
-    check(temp);
-    check(n);
-    check(xors);
-    if (as == temp) {
-      cout << "FINE\n";
+    for (int i = 0; i <= l; i++) {
+      cout << a[i] << " ";
     }
+    for (int i = 0; i < b.size(); i++) {
+      cout << b[i] << " ";
+    }
+    cout << "\n";
   }
 }
 
