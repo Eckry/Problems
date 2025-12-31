@@ -62,16 +62,9 @@ void solve() {
     ll cm = f[nn] * e(term1, MOD - 2) % MOD;
     return cm;
   };
-  ll ans = 0;
-  // cout << ans << "\n";
-  for (int i = 0; i <= left; i++) {
-    ll F = n - cnt;
-    ll cm = nck(cnt, i);
-    ll term2 = cm * f[i + F - 1] % MOD;
-    ll term3 = f[cnt - i] % MOD;
-    term3 = (term3 * F) % MOD;
-    ans = (ans + term2 * term3 % MOD) % MOD;
-  }
+  ll ans = (nck(cnt, left)) % MOD;
+  ans = (ans * f[left + n - cnt]) % MOD;
+  ans = (ans * f[cnt - left]) % MOD;
 
   cout << ans << "\n";
 }
